@@ -1,4 +1,4 @@
-package com.magdielpereira1.cursomc.resources;
+package com.magdielpereira1.cursomc.services.exception;
 
 public class ObjectNotFoundException extends RuntimeException{
 

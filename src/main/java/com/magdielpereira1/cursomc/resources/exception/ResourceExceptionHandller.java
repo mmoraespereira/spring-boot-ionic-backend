@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.magdielpereira1.cursomc.resources.ObjectNotFoundException;
+import com.magdielpereira1.cursomc.services.exception.ObjectNotFoundException;
 
 @ControllerAdvice
 public class ResourceExceptionHandller {
