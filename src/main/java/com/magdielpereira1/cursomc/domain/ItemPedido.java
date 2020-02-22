@@ -33,6 +33,10 @@ public ItemPedido(Pedido pedido,Produto produto, Double desconto, Integer quanti
 	this.preco = preco;
 }
 
+public double getSubTotal() {
+    return (preco - desconto) * quantidade;	
+}
+
 @JsonIgnore
 public Pedido getPedido() {
 	return id.getPedido();
