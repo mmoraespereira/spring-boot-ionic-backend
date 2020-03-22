@@ -17,11 +17,11 @@ public class TestConfig {
 
 	@Autowired
 	private DBService dbService;
-
+	
 	@Bean
 	public boolean instantiateDatabase() throws ParseException {
 		dbService.instantiateDatabase();
-        return true;
+		return true;
 	}
 	
 	@Bean
