@@ -3,6 +3,8 @@ package com.magdielpereira1.cursomc.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.security.sasl.AuthenticationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -14,11 +16,14 @@ import org.springframework.stereotype.Service;
 import com.magdielpereira1.cursomc.domain.Cidade;
 import com.magdielpereira1.cursomc.domain.Cliente;
 import com.magdielpereira1.cursomc.domain.Endereco;
+import com.magdielpereira1.cursomc.domain.enums.Perfil;
 import com.magdielpereira1.cursomc.domain.enums.TipoCliente;
 import com.magdielpereira1.cursomc.dto.ClienteDTO;
 import com.magdielpereira1.cursomc.dto.ClienteNewDTO;
 import com.magdielpereira1.cursomc.repositories.ClienteRepository;
 import com.magdielpereira1.cursomc.repositories.EnderecoRepository;
+import com.magdielpereira1.cursomc.security.UserSS;
+import com.magdielpereira1.cursomc.services.exception.AuthorizationException;
 import com.magdielpereira1.cursomc.services.exception.DataIntegrityException;
 
 
@@ -36,6 +41,12 @@ public class ClienteService {
 	private EnderecoRepository enderecoRepository;
 	
 	public Cliente find(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado!");
+		}
+		
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new com.magdielpereira1.cursomc.services.exception.ObjectNotFoundException(
 				"Objeto não encontrado ! Id: " + id + ", Tipo: " + Cliente.class.getName()));
